@@ -45,6 +45,13 @@ INSTALLED_APPS = [
     "artGallery",
     # adding cart app
     "cart.apps.CartConfig",
+    # adding exhibition app
+    "exhibition.apps.ExhibitionConfig",
+    # ading humanize for template
+    'django.contrib.humanize',
+    # adding search app
+    'search.apps.SearchConfig',
+    'django.contrib.postgres',
 
 ]
 
@@ -88,10 +95,27 @@ WSGI_APPLICATION = 'online_art_gallery.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # requied for which database engine
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # database name
+        'NAME': 'online-art-gallery',
+        # user that can login to postgres
+        'USER': 'postgres',
+        # password for user
+        'PASSWORD': 'admin123',
+        # server address
+        'HOST': 'localhost',
+        # post of server
+        'PORT': '5432',
     }
 }
 
@@ -147,5 +171,5 @@ MEDIA_ROOT = os.path.join(os.path.dirname(
     BASE_DIR), "static_cdn", "media_root")
 
 # for after login and logout
-LOGIN_REDIRECT_URL = "/home"
-LOGOUT_REDIRECT_URL = "/home"
+LOGIN_REDIRECT_URL = "/artgallery"
+LOGOUT_REDIRECT_URL = "/artgallery"

@@ -1,0 +1,27 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'cart/artGallery/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'new-navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'cart/cart/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>My cart</title>
+</head>
+<body>
+{% include "main/new-navbar.html" %}
+<div style="padding-top:25vh;" class="cart-container">
+<div class="cart">
+  
+  <a href="{% url 'cart:art-gallery-cart' %}" class="art-cart">
+  Gallery Cart</a>
+  <a href="{% url 'cart:exhibition-cart' %}" class="exhibition-cart">Exhibition Cart</a>
+</div>
+</div>
+  
+  <script src="{% static 'main.js' %}"></script>  
+</body>
+</html>

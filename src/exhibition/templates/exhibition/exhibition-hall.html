@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block custom-css %}
+<link rel="stylesheet" href="{% static 'artGallery/css/main.css' %}">  
+{% endblock custom-css %}
+
+
+{% block content %}
+<div class="ui container">
+{% if is_artist and is_exhibition %}
+<a class="ui button primary" href="{% url 'exhibition:add-art' %}">Add Art</a>
+{% endif %}
+{% if not is_exhibition %}
+<h1 class="ui header blue aligned center">No exhibition currently availbale</h1>
+{% endif %}
+{% if request.user.is_superuser %}
+<a class="ui button primary" href="{% url 'exhibition:manage-exhibition' %}">Manage Exhibition hall</a>
+{% endif %}
+</div>
+<br>
+<div class="ui container">
+<div id="exhibition-day-container">
+  Auction Day: {{exhibition.exhibition_day|naturalday}}
+</div>
+<div id="app" class="container">
+{% for art in arts %}
+        <a href="{% url 'exhibition:art-showcase' art.id %}">
+            <card data-image="{{MEDIA_URL}}{{art.photo}}">
+                <h1 slot="header">{{art.name|truncatechars:6|title}}</h1>
+                <p slot="content">{{art.description|truncatechars:20|lower}}</p>
+            </card>
+        </a>
+{% endfor %}
+</div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.min.js"></script>
+<script src="{% static 'artGallery/js/main.js' %}"></script>  
+{% endblock scripts %}

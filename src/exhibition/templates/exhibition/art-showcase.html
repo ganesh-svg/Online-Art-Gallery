@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+<div class="ui container">
+    <div class="ui grid two column">
+        <div class="column green">
+        <video  class="ui raised segment"width="100%" controls loop autoplay>
+            <source src="{{MEDIA_URL}}{{art.video}}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="ui segment raised">
+        <h5 class="ui header">
+        current top bid
+        </h5>
+        <h3 class="ui header">
+        Rs. {{art.minimum_price|intcomma}}
+        </h3>
+        {% comment %} Top 5 bids {% endcomment %}
+        {% if top_5_auctions %}
+        <h1 class="ui header  aligned center">Top 5 bids</h1>
+        {% endif %}
+        {% for auction in top_5_auctions %}
+        <div class="ui segment">
+        <div class="ui grid two column">
+        <div class="column">
+            <img class="ui image mini circular" src="{{MEDIA_URL}}{{auction.client.profile_photo}}" alt="">
+            <h5 class="ui header blue">{{auction.client.user}}</h5>
+        </div>
+        <div class="column">
+        <h2 class="ui header pink">RS. {{auction.bid_amount|intword}}</h2>
+        </div>
+        </div>
+        
+        </div>
+        
+        {% endfor %}
+        {% if request.user.is_superuser %}
+        <div class="ui raised segment">
+        
+            <form action="{% url 'exhibition:approve-art' %}" method="POST" class='like-form' id='{{art.id}}'>
+            {% csrf_token %}
+            <input type="hidden" name="art_id" value={{art.id}}>
+            <button type="submit" class="ui button">
+            Appprove
+            </button>
+            </form>
+        
+         </div>
+        {% endif %}
+        </div>
+        </div>
+        <div  class="column">
+            {% if is_client %}
+            <form class="ui form" action="{% url 'exhibition:auction' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="art_id" value={{art.id}}>
+                <div class="ui grid two column container">
+                <div class="column">
+                    <input type="number" name="bid_amount" step="0.01" required="" id="id_minimum_price">
+                </div>
+                <div class="column">
+                    <button type="submit" style="width:50%;" class="ui button primary fluid">
+                    Bid
+                    </button>
+                </div>
+            </div>
+            </form>
+            {% endif %}
+            <div class="ui segment">
+            
+            <h2  class="ui header green center aligned">
+            {{art.name|truncatechars:20}}
+            </h2>
+            <div class="ui  segment">
+                <h3 class="ui header">Detail</h3>
+                <h5 class="ui header">
+                {{art.description|truncatechars:50}}
+                </h5>
+            </div>
+            <div class="ui segment">
+            <div class="ui grid two column">
+            <div class="column">
+            <h3 class="ui header">
+            Art by
+            </h3>
+                <div class="ui grid two column">
+                    <div class="column">
+                         <img class="ui image tiny circular" src="{{MEDIA_URL}}{{art.artist.profile_photo}}" alt="loading" srcset="">
+                    </div>
+                    <div class="column">
+                        <h5 class="ui header green">{{art.artist.user}} {{art.artist.last_name}}</h5>
+                    </div>
+                </div>
+            </div>
+            </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}

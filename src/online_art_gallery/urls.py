@@ -22,11 +22,15 @@ from .view import home_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("home/", home_view, name="home"),
+    path("", home_view, name="home"),
     # for signup and login feature
     path("authentication/", include("authentication.urls")),
     # for artGallery
-    path("artgallery/", include("artGallery.urls"), name="artGallery")
+    path("artgallery/", include("artGallery.urls")),
+    path("dashboard/", include(("client.urls"))),
+    path("exhibition/", include("exhibition.urls")),
+    path("search/", include("search.urls"),),
+    path("cart/", include("cart.urls")),
 
 ]
 
